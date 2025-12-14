@@ -1,0 +1,121 @@
+---
+title: Using New Oaks AI Features
+description: Learn to leverage core features for seamless customer interactions, including query handling and analytics.
+---
+
+## Overview
+
+New Oaks AI empowers your business with intelligent chatbots that handle customer queries via SMS and convert them into appointments. You access these features through the dashboard at `https://dashboard.newoaks.ai`. Core capabilities include managing conversations, automating bookings, and monitoring performance metrics.
+
+<Columns cols={3}>
+  <Card title="SMS Conversations" icon="message-circle" href="#sms-conversations">
+    Handle real-time customer interactions.
+  </Card>
+  <Card title="Appointment Automation" icon="calendar" href="#automation">
+    Streamline booking without manual intervention.
+  </Card>
+  <Card title="Performance Analytics" icon="bar-chart-3" href="#analytics">
+    Track engagement and conversion rates.
+  </Card>
+</Columns>
+
+## Managing SMS Conversations
+
+You manage SMS conversations to ensure smooth customer engagement. Follow these steps to set up and monitor active chats.
+
+<Steps>
+  <Step title="Connect Your Phone Number" icon="phone">
+    In the dashboard, navigate to **Settings > Phone Numbers**. Add your Twilio or supported carrier number using your account SID and auth token.
+
+    <CodeGroup tabs="Dashboard,cURL">
+      ```bash
+      curl -X POST https://api.newoaks.ai/v1/phone-numbers \
+        -H "Authorization: Bearer YOUR_API_KEY" \
+        -d '{"phoneNumber": "+15551234567", "provider": "twilio"}'
+      ```
+    </CodeGroup>
+  </Step>
+  <Step title="Review Active Conversations" icon="messages-square">
+    Go to **Conversations** tab. Filter by status: active, pending, or resolved.
+  </Step>
+  <Step title="Respond or Handoff" icon="send">
+    Use the AI reply suggestion or handoff to a human agent via the **Assign** button.
+  </Step>
+</Steps>
+
+<Callout kind="tip">
+  Enable auto-responses for common queries like hours or pricing to reduce response time `<30s`.
+</Callout>
+
+## Automating Appointments
+
+Automate appointment booking by integrating calendars and setting triggers. Choose your preferred method based on your setup.
+
+<Tabs>
+  <Tab title="Google Calendar" icon="calendar">
+    Link your Google Calendar in **Integrations > Calendar**.
+
+    ```javascript
+    // Example webhook for booking confirmation
+    const handleBooking = async (event) => {
+      const response = await fetch('https://api.newoaks.ai/v1/bookings', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer YOUR_API_KEY' },
+        body: JSON.stringify({
+          customerPhone: event.phone,
+          service: 'Consultation',
+          time: event.proposedTime
+        })
+      });
+      return response.json();
+    };
+    ```
+  </Tab>
+  <Tab title="Custom Calendar API" icon="settings">
+    Configure webhooks to sync with your system.
+
+    <ParamField path="customerPhone" param-type="string" required="true">
+      Customer's phone number for SMS confirmation.
+    </ParamField>
+
+    <ParamField body="service" param-type="string">
+      Service type, e.g., "Haircut" or "Consultation".
+    </ParamField>
+  </Tab>
+</Tabs>
+
+## Monitoring Performance
+
+Track key metrics to optimize your chatbot's effectiveness. Use the analytics dashboard for visualizations.
+
+| Metric              | Description                          | Target Value     |
+|---------------------|--------------------------------------|------------------|
+| Response Time       | Average time to first reply          | `<2 minutes`    |
+| Conversion Rate     | Queries turned into appointments     | `>20%`          |
+| Engagement Score    | Customer satisfaction from feedback  | `>4.5/5`        |
+| Total Conversations | Monthly active chats                 | N/A             |
+
+<ExpandableGroup>
+  <Expandable title="Advanced API Analytics" default-open="false">
+    Fetch detailed reports programmatically.
+
+    <CodeGroup tabs="JavaScript,Python">
+      ```javascript
+      const analytics = await fetch('https://api.newoaks.ai/v1/analytics?period=30d', {
+        headers: { 'Authorization': 'Bearer YOUR_API_KEY' }
+      }).then(res => res.json());
+      console.log(analytics.conversionRate);
+      ```
+      ```python
+      import requests
+      headers = {'Authorization': 'Bearer YOUR_API_KEY'}
+      response = requests.get('https://api.newoaks.ai/v1/analytics?period=30d', headers=headers)
+      print(response.json()['conversionRate'])
+      ```
+    </CodeGroup>
+  </Expandable>
+</ExpandableGroup>
+
+<Callout kind="success">
+  Regularly review metrics weekly to identify trends and improve automation rules.
+</Callout>

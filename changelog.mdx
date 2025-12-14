@@ -1,0 +1,154 @@
+---
+title: Changelog
+description: Review the latest updates, enhancements, and version history for New Oaks AI to stay informed on platform improvements.
+---
+
+## Overview
+
+Stay current with New Oaks AI enhancements that power your SMS chatbots and appointment booking. You access new features like advanced AI conversation flows and seamless integrations directly in your dashboard. Review release notes below to upgrade effectively and maximize customer engagement.
+
+<Columns cols={3}>
+  <Card title="New Features" icon="zap" href="#recent-releases">
+    Discover AI-powered SMS templates and 24/7 booking automation.
+  </Card>
+  <Card title="Bug Fixes" icon="check-circle" href="#recent-releases">
+    Resolve issues with conversation threading and appointment conflicts.
+  </Card>
+  <Card title="Upcoming" icon="rocket" href="#upcoming">
+    Preview multi-language support and webhook enhancements.
+  </Card>
+</Columns>
+
+## Recent Releases
+
+<Update label="2024-10-15" description="v1.5.0" tags={["feature", "improvement"]}>
+
+## New Features
+
+- Added customizable SMS templates for personalized customer interactions
+- Introduced real-time appointment availability checks during conversations
+
+## Improvements
+
+- Enhanced AI response accuracy by 25% with fine-tuned ChatGPT models
+- Optimized dashboard loading speeds for faster business management
+
+## Bug Fixes
+
+- Fixed conversation history pagination errors on high-volume accounts
+- Resolved SMS delivery failures for international numbers
+
+</Update>
+
+<Update label="2024-09-20" description="v1.4.0" tags={["feature", "bugfix"]}>
+
+## New Features
+
+- Launched webhook support for third-party CRM integrations like HubSpot
+- Enabled multi-business account switching in a single dashboard
+
+## Bug Fixes
+
+- Corrected appointment double-booking glitches during peak hours
+- Patched security vulnerability in SMS attachment handling
+
+</Update>
+
+<Update label="2024-08-10" description="v1.3.0" tags={["breaking", "feature"]}>
+
+## Breaking Changes
+
+- Updated API authentication to require `{API_KEY}` in headers only (query params deprecated)
+
+## New Features
+
+- Integrated voice-to-text for SMS fallback conversations
+- Added analytics dashboard for conversation conversion rates
+
+## Improvements
+
+- Reduced latency in ChatGPT-powered responses to under 2 seconds
+
+</Update>
+
+<Callout kind="alert">
+  Review breaking changes before upgrading. Test integrations in staging to avoid disruptions.
+</Callout>
+
+## Staying Updated
+
+Follow these steps to monitor updates and apply them seamlessly.
+
+<Steps>
+  <Step title="Check Dashboard" icon="monitor">
+    Log in to your New Oaks AI dashboard. Navigate to Settings {`>`} Updates for notifications.
+  </Step>
+  <Step title="Subscribe to Emails" icon="mail">
+    Enable release notifications in your account preferences.
+  </Step>
+  <Step title="Update Integrations" icon="code">
+    Refresh your webhook endpoints with the latest schema.
+
+    <CodeGroup tabs="JavaScript,Python">
+      ```javascript
+      const webhookData = {
+        event: 'appointment_booked',
+        customer: { phone: '+15551234567', name: 'Jane Doe' },
+        slot: '2024-11-01T14:00:00Z'
+      };
+      fetch('https://your-webhook.example.com/notify', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${YOUR_WEBHOOK_TOKEN}` },
+        body: JSON.stringify(webhookData)
+      });
+      ```
+      ```python
+      import requests
+      webhook_data = {
+          'event': 'appointment_booked',
+          'customer': {'phone': '+15551234567', 'name': 'Jane Doe'},
+          'slot': '2024-11-01T14:00:00Z'
+      }
+      headers = {'Authorization': f'Bearer {YOUR_WEBHOOK_TOKEN}'}
+      requests.post('https://your-webhook.example.com/notify', json=webhook_data, headers=headers)
+      ```
+    </CodeGroup>
+  </Step>
+</Steps>
+
+## Platform-Specific Changes
+
+<Tabs>
+  <Tab title="Web Dashboard" icon="monitor">
+    v1.5.0 adds drag-and-drop template builder. Access via Templates tab.
+  </Tab>
+  <Tab title="SMS API" icon="smartphone">
+    New endpoint `/v1/conversations/{id}/availability` for real-time checks. Rate limit: 100/min.
+  </Tab>
+  <Tab title="Mobile App" icon="phone">
+    iOS/Android updates include push notifications for new bookings.
+  </Tab>
+</Tabs>
+
+## Upcoming Changes
+
+<ExpandableGroup>
+  <Expandable title="v1.6.0 Preview (Q4 2024)" default-open="false">
+
+    Plan for multi-language AI support (English, Spanish, French). Update your locale settings.
+
+    <ParamField path="locale" param-type="string" required="false">
+      Set customer language, e.g., `en-US`.
+    </ParamField>
+
+  </Expandable>
+  <Expandable title="Roadmap Priorities">
+
+    - Enterprise SSO integration
+    - Advanced analytics with conversion funnels
+    - Zero-downtime deployments
+
+  </Expandable>
+</ExpandableGroup>
+
+Track progress in your dashboard or contact support for early access. You benefit from these updates to deliver superior customer experiences through intelligent SMS chatbots.

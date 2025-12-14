@@ -1,0 +1,141 @@
+---
+title: Frequently Asked Questions
+description: Address common inquiries about setup, functionality, and best practices for New Oaks AI chatbots.
+---
+
+## Common Questions
+
+New Oaks AI chatbots help you provide 24/7 SMS customer engagement and seamless appointment booking. You encounter various issues during setup, customization, or operation. This page covers account and setup problems, chatbot customization options, and troubleshooting tips.
+
+<Columns cols={3}>
+  <Card title="Account & Setup" icon="user" href="#account-setup">
+    Resolve login and integration issues quickly.
+  </Card>
+  <Card title="Customization" icon="paint-brush" href="#customization">
+    Personalize your chatbot experience.
+  </Card>
+  <Card title="Troubleshooting" icon="alert-triangle" href="#troubleshooting">
+    Fix common errors and optimize performance.
+  </Card>
+</Columns>
+
+## Account and Setup Issues
+
+<ExpandableGroup>
+  <Expandable title="How do you create a New Oaks AI account?" default-open="true">
+
+    Visit `https://dashboard.newoaks.ai/register` and provide your business email, phone number, and company details. Verify your email, then generate your first `{API_KEY}` from the dashboard settings.
+
+  </Expandable>
+
+  <Expandable title="What if you forget your password?">
+
+    Click "Forgot Password" on the login page. Enter your registered email to receive a reset link valid for 15 minutes.
+
+  </Expandable>
+
+  <Expandable title="How do you connect your SMS provider?">
+
+    In the dashboard, navigate to Integrations > SMS. Select your provider like Twilio, enter your Account SID and Auth Token as `YOUR_TWILIO_SID` and `YOUR_TWILIO_TOKEN`.
+
+    <CodeGroup tabs="Twilio,Plivo">
+      ```javascript
+      const twilioConfig = {
+        accountSid: 'YOUR_TWILIO_SID',
+        authToken: 'YOUR_TWILIO_TOKEN',
+        phoneNumber: '+1234567890'
+      };
+      ```
+
+      ```javascript
+      const plivoConfig = {
+        authId: 'YOUR_PLIVO_AUTH_ID',
+        authToken: 'YOUR_PLIVO_AUTH_TOKEN',
+        phoneNumber: '+1234567890'
+      };
+      ```
+    </CodeGroup>
+
+  </Expandable>
+</ExpandableGroup>
+
+<Callout kind="tip">
+  Always test your SMS connection with a sample message before going live.
+</Callout>
+
+## Chatbot Customization
+
+Tailor your chatbot to match your brand and handle specific customer needs like appointment booking.
+
+<Tabs>
+  <Tab title="Welcome Message" icon="message-circle">
+    Customize the initial greeting in Dashboard > Chatbot > Messages.
+
+    ```javascript
+    const welcomeMessage = {
+      text: "Hi! Welcome to New Oaks. Reply 'book' to schedule an appointment.",
+      buttons: [
+        { text: "Book Now", payload: "book_appointment" },
+        { text: "Services", payload: "view_services" }
+      ]
+    };
+    ```
+
+    Update via API:
+
+    ```bash
+    curl -X POST https://api.newoaks.ai/v1/chatbot/messages \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -d '{"welcome": "Hi! Welcome..."}'
+    ```
+  </Tab>
+
+  <Tab title="Appointment Flow" icon="calendar">
+    Set availability slots and confirmation logic.
+
+    Use the visual builder or code:
+
+    ```javascript
+    const appointmentSlots = [
+      { time: "09:00", duration: 30 },
+      { time: "10:00", duration: 30 }
+    ];
+    ```
+  </Tab>
+</Tabs>
+
+## Troubleshooting Tips
+
+Follow these steps to diagnose and resolve issues.
+
+<Steps>
+  <Step title="Check Logs" icon="file-text">
+    Access logs in Dashboard > Analytics > Logs. Look for errors like `SMS delivery failed`.
+  </Step>
+
+  <Step title="Verify Webhook" icon="link">
+    Ensure your webhook URL `https://your-domain.com/webhook` responds with 200 OK.
+
+    Test with:
+
+    ```bash
+    curl -X POST https://your-domain.com/webhook \
+      -H "Content-Type: application/json" \
+      -d '{"event": "message_received", "from": "+1234567890"}'
+    ```
+  </Step>
+
+  <Step title="Restart Chatbot" icon="refresh-cw">
+    Toggle the chatbot off and on in the dashboard.
+  </Step>
+</Steps>
+
+| Issue | Possible Cause | Solution |
+|-------|----------------|----------|
+| No SMS responses | Invalid `{API_KEY}` | Regenerate key in settings |
+| Booking failures | Timezone mismatch | Set `timezone: "America/New_York"` |
+| Rate limits hit | High traffic | Upgrade to Pro plan |
+
+<Callout kind="alert">
+  Contact support@newoaks.ai if issues persist after these steps.
+</Callout>
